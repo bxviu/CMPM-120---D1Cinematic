@@ -111,9 +111,11 @@ class StudioScreen extends Phaser.Scene {
         this.load.path = "./assets/";
         this.load.image("background", "studioLogoBg.png");
         this.load.image("logo", "studioLogo.png");
-    
+        this.load.audio('bgMusic', "miamiSong.wav");
     }
     create(){
+        let bgMusic = this.sound.add('bgMusic', { loop: true });
+        
         this.graphics = this.add.graphics();
         this.graphics.fillStyle(0x000000, 1);
         this.graphics.fillRect(0, 0, 1000, 600);
@@ -141,6 +143,11 @@ class StudioScreen extends Phaser.Scene {
         );
         logoImg.setScale(0.45);
         logoImg.postFX.addShadow(-0.3,1.2,0.01,1,0x000000,12,1);
+        
+        this.time.delayedCall(4000, ()=>{
+            bgMusic.play();
+        });
+
         this.time.delayedCall(5000, ()=>{
             this.cameras.main.fadeOut(1000);
             this.time.delayedCall(1500, ()=>{
@@ -161,11 +168,12 @@ class MenuScreen extends Phaser.Scene {
         this.load.image("title","mockGameTitle.png");
         this.load.plugin('rexroundrectangleplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexroundrectangleplugin.min.js', true);
         this.load.plugin('rexdropshadowpipelineplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexdropshadowpipelineplugin.min.js', true);
-        this.load.audio('bgMusic', "miamiSong.wav");
+        
         this.load.audio('plink', "plink.mp3");
     }
     create(){
-        this.sound.add('bgMusic', { loop: true });
+        let plinkNoise = this.sound.add('plink', { loop: false });
+        
         this.graphics = this.add.graphics();
         let fade = this.add.rectangle(500, 300, 1000, 600, 0x000000);
         fade.setDepth(1);
@@ -246,7 +254,7 @@ class MenuScreen extends Phaser.Scene {
         });
 
         this.time.delayedCall(7500, ()=>{
-            this.sound.add('plink', { loop: false });
+            plinkNoise.play();
         });
         this.tweens.add({
             targets: [this.graphics],
@@ -327,7 +335,7 @@ class MenuScreen extends Phaser.Scene {
         });
 
         this.time.delayedCall(12000, ()=>{
-            this.sound.add('plink', { loop: false });
+            plinkNoise.play();
         });
 
         this.tweens.add({
@@ -389,6 +397,10 @@ class MenuScreen extends Phaser.Scene {
             duration:1000,
             ease:"Cubic.easeOut",
             repeat:0,
+        });
+
+        this.time.delayedCall(19500, ()=>{
+            plinkNoise.play();
         });
 
         this.time.delayedCall(20500, ()=>{
@@ -558,14 +570,14 @@ class CutsceneScreen extends Phaser.Scene {
         cloud3.setScale(-0.8);
         cloud3.postFX.addShadow(-0.3,1.2,0.01,1,0x000000,12,1);
 
-        // let character = this.add.image(
-        //     300,
-        //     350,
-        //     "character",
-        // );
-        // character.setScale(0.4);
-        // character.postFX.addShadow(-0.3,1.2,0.01,1,0x000000,12,1);
-        // character.setDepth(0);
+        let character = this.add.image(
+            300,
+            350,
+            "character",
+        );
+        character.setScale(0.4);
+        character.postFX.addShadow(-0.3,1.2,0.01,1,0x000000,12,1);
+        character.setDepth(0);
 
         this.textbox2 = this.add.rexRoundRectangle(500, -300, 450, 200, 20, 0xffffff, 1);
         this.textbox2.postFX.addShadow(0,0,0.02,1,0x000000,12,1);
